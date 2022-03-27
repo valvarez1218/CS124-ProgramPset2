@@ -1,13 +1,19 @@
 #include <vector>
 #include <iostream>
+#include <assert.h>
+#include <cmath>
 
 using namespace std;
 
+
+// structure used to represent a matrix
 struct Matrix {
     // how many rows in matrix (height)
     int rowDim;
     // how many columns in matrix (width)
     int colDim;
+
+    // 2D vector containing values
     vector<vector<int>> Mat;
 
     // constructor function
@@ -37,7 +43,7 @@ struct Matrix {
         vector<int> zeros(colDim, 0);
         Mat.push_back(zeros);
     }
-    
+
     // add zero column to end
     void padCol() {
         // for each row, add a zero to the end
@@ -62,6 +68,22 @@ Matrix NaiveMatMult(Matrix M1, Matrix M2) {
     }
 
     return toRet;
+}
+
+
+// split an (n x n) matrix into sub-matrices 
+vector<Matrix> split(Matrix M) {
+    // argument MUST be a square matrix
+    assert(M.colDim == M.rowDim);
+
+    // create sub-matrices of correct dimension even if n is odd
+    Matrix A(ceil(M.colDim), ceil(M.colDim));
+    Matrix B(ceil(M.colDim), floor(M.colDim));
+    Matrix C(floor(M.colDim), ceil(M.colDim));
+    Matrix D(floor(M.colDim), floor(M.colDim));
+
+    // copy values into matrices
+
 }
 
 // This helper function performs the matrix multiplications for Strassen's Algorithm
