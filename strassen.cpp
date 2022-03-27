@@ -83,7 +83,28 @@ vector<Matrix> split(Matrix M) {
     Matrix D(floor(M.colDim), floor(M.colDim));
 
     // copy values into matrices
+    for (int i = 0; i < M.rowDim; i++) {
+        for (int j = 0; j < M.colDim; j++) {
+            // if in upper left add to A
+            if (i < A.rowDim-1 && j < A.colDim-1) {
+                A[i][j] = M[i][j];
+            }
+            // if in upper right add to B
+            if (i < A.rowDim-1 && j >= A.colDim-1) {
+                B[i][j - A.colDim] = M[i][j];
+            }
+            // if in lower left add to C
+            if (i >= A.rowDim-1 && j < A.colDim-1) {
+                C[i - A.rowDim][j] = M[i][j];
+            }
+            // if in lower right add to D
+            if (i >= A.rowDim-1 && j >= A.colDim-1) {
+                D[i - A.rowDim][j - A.colDim] = M[i][j];
+            }
+        }
+    }
 
+    return vector<Matrix> {A, B, C, D};
 }
 
 // This helper function performs the matrix multiplications for Strassen's Algorithm
