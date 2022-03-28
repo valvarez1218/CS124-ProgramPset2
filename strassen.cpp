@@ -27,16 +27,11 @@ struct Matrix {
         rowDim = r;
         colDim = c;
 
+        // initialize matrix with all 0s
+        Mat.resize(r, vector<int> {});
         for (int i = 0; i < r; i++) {
-            Mat.push_back({});
-            for (int j = 0; j < c; j++) {
-                Mat[i].push_back(0);
-            }
+            Mat[i].resize(c, 0);
         }
-        // Mat.resize(r, {});
-        // for (vector<int> row : Mat) {
-        //     row.resize(c, 0);
-        // }
         padded = false;
     }
 
@@ -56,6 +51,7 @@ struct Matrix {
         for (int i = 0; i < rowDim; i++) {
             cout << Mat[i][i] << endl;
         }
+        cout << endl;
     }
 
     // add zero row to end
@@ -113,48 +109,6 @@ Matrix NaiveMatMult(Matrix M1, Matrix M2) {
 
     return toRet;
 }
-
-
-// split an (n x n) matrix into sub-matrices 
-// vector<Matrix> split(Matrix M1, Matrix M2) {
-//     // arguments MUST be square matrices
-//     assert(M1.colDim == M1.rowDim);
-//     assert(M2.colDim == M2.rowDim);
-
-    // IMPLEMENTATION BELOW: Copies values into sub-matrices requiring n^2 time
-    // *****************************************************************************
-    // // create sub-matrices of correct dimension even if n is odd
-    // Matrix A(ceil(M.colDim), ceil(M.colDim));
-    // Matrix B(ceil(M.colDim), floor(M.colDim));
-    // Matrix C(floor(M.colDim), ceil(M.colDim));
-    // Matrix D(floor(M.colDim), floor(M.colDim));
-
-    // // copy values into matrices
-    // for (int i = 0; i < M.rowDim; i++) {
-    //     for (int j = 0; j < M.colDim; j++) {
-    //         // if in upper left add to A
-    //         if (i < A.rowDim-1 && j < A.colDim-1) {
-    //             A[i][j] = M[i][j];
-    //         }
-    //         // if in upper right add to B
-    //         if (i < A.rowDim-1 && j >= A.colDim-1) {
-    //             B[i][j - A.colDim] = M[i][j];
-    //         }
-    //         // if in lower left add to C
-    //         if (i >= A.rowDim-1 && j < A.colDim-1) {
-    //             C[i - A.rowDim][j] = M[i][j];
-    //         }
-    //         // if in lower right add to D
-    //         if (i >= A.rowDim-1 && j >= A.colDim-1) {
-    //             D[i - A.rowDim][j - A.colDim] = M[i][j];
-    //         }
-    //     }
-    // }
-
-    // return vector<Matrix> {A, B, C, D};
-    // *********************************************************************************
-    
-// }
 
 // for submatrices of the form (A + B) calcualte their sum and return as a matrix
 Matrix sumSectors(Matrix M, pair<int, int> start1, pair<int, int> start2, bool subtracting = false) {
@@ -299,6 +253,9 @@ Matrix StrassMult(Matrix M1, Matrix M2) {
     return Product;
 }
 
+Matrix generateRandMat(int dimension) {
+
+}
 
 int main(int argc, char** argv) {
     if (argc != 4) {
@@ -311,40 +268,47 @@ int main(int argc, char** argv) {
     Matrix M1(dimension, dimension);
     Matrix M2(dimension, dimension);
 
-    // read inputs and place them in matrices
-    bool enteringM2 = false;;
-    string filename(argv[3]);
-    ifstream infile(filename);
-    int i = 0;
-    int j = 0;
-    int entry;
-    while (infile >> entry) {
-        // enter values into correct matrix
-        if (enteringM2) {
-            M2[i][j] = entry;
-        }
-        else {
-            M1[i][j] = entry;
-        }
+    // if testing, generate two random matrices and calculate product with both Strassen's and naive algorithm
+    if (strtol(argv[1], nullptr, 0) == 1) {
 
-        j++;
-        if (j >= dimension) {
-            j = 0; 
-            i++;
-        }
-        if (i >= dimension) {
-            enteringM2 = true;
-            i = 0;
-            j=0;
+    }
+    // if flag is '2' then calculate optimal n0
+    else if (strtol(argv[1], nullptr, 0) == 2) {
+
+    }
+    // otherwise read inputs from text file
+    else {
+        bool enteringM2 = false;;
+        string filename(argv[3]);
+        ifstream infile(filename);
+        int i = 0;
+        int j = 0;
+        int entry;
+        while (infile >> entry) {
+            // enter values into correct matrix
+            if (enteringM2) {
+                M2[i][j] = entry;
+            }
+            else {
+                M1[i][j] = entry;
+            }
+
+            j++;
+            if (j >= dimension) {
+                j = 0; 
+                i++;
+            }
+            if (i >= dimension) {
+                enteringM2 = true;
+                i = 0;
+                j=0;
+            }
         }
     }
 
-    // cout << "Printing Matrix 1: " << endl;
-    // M1.printDiagonal();
-    // cout << "Printing Matrix 2: " << endl;
-    // M2.printMat();
     Matrix Prod = StrassMult(M1, M2);
-    Prod.printMat();
+    // Prod.printMat();
+    Prod.printDiagonal();
 
     return 0;
 }
