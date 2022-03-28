@@ -20,7 +20,7 @@ struct Matrix {
     bool padded;
 
     // 2D vector containing values
-    vector<vector<int>> Mat;
+    vector<vector<long>> Mat;
 
     // constructor function
     Matrix(int r, int c) {
@@ -28,18 +28,18 @@ struct Matrix {
         colDim = c;
 
         // initialize matrix with all 0s
-        Mat.resize(r, vector<int> {});
+        Mat.resize(r, vector<long> {});
         for (int i = 0; i < r; i++) {
             Mat[i].resize(c, 0);
         }
         padded = false;
     }
 
-    vector<int>& operator[] (const int i) {return Mat[i];}
+    vector<long>& operator[] (const int i) {return Mat[i];}
 
     // method to print matrix
     void printMat() {
-        for (vector<int> row : Mat) {
+        for (vector<long> row : Mat) {
             for (int entry : row) {
                 cout << entry  << "  " ;
             }
@@ -56,7 +56,7 @@ struct Matrix {
 
     // add zero row to end
     void padRow() {
-        vector<int> zeros(colDim, 0);
+        vector<long> zeros(colDim, 0);
         Mat.push_back(zeros);
         rowDim += 1;
     }
@@ -253,6 +253,7 @@ Matrix StrassMult(Matrix M1, Matrix M2) {
     return Product;
 }
 
+// generate random matrices
 Matrix generateRandMat(int dimension) {
 
 }
@@ -301,14 +302,14 @@ int main(int argc, char** argv) {
             if (i >= dimension) {
                 enteringM2 = true;
                 i = 0;
-                j=0;
+                j = 0;
             }
         }
     }
 
     Matrix Prod = StrassMult(M1, M2);
-    // Prod.printMat();
-    Prod.printDiagonal();
+    Prod.printMat();
+    // Prod.printDiagonal();
 
     return 0;
 }
