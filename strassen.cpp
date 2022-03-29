@@ -5,6 +5,8 @@
 #include <utility>
 #include <string>
 #include <fstream>
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -255,7 +257,55 @@ Matrix StrassMult(Matrix M1, Matrix M2) {
 
 // generate random matrices
 Matrix generateRandMat(int dimension) {
+    Matrix M = Matrix(dimension, dimension);
+    srand(time(NULL));
 
+    for (int i = 0; i < dimension; i++) {
+        for (int j = 0; j < dimension; j++) {
+            // random integers between 0 and 10
+            M[i][j] = rand() % 100;
+            // make 10% of values negative
+            if (rand() % 10 == 1) {
+                M[i][j] *= -1;
+            }
+        }
+    }
+
+    return M;
+}
+
+// generate random graph
+Matrix generateRandGraph(int dimension, float p) {
+    Matrix M = Matrix(dimension, dimension);
+    srand(time(NULL));
+
+    for (int i = 0; i < dimension; i++) {
+        for (int j = 0; j < dimension; j++) {
+            if (i == j) {
+                M[i][j] = 0;
+            } else {
+                int edge = rand() % 100 < (int)(p * 100) ? 1 : 0;
+                M[i][j] = edge;
+                M[j][i] = edge;
+            }
+        }
+    }
+
+    return M;
+}
+
+int CountTriangles(Matrix MTri) {
+    // multiply matrix by itself 3 times
+    Matrix Prod = StrassMult(StrassMult(MTri, MTri), MTri);
+
+    int rowDim = Prod.rowDim;
+    int sum = 0;
+    for (int i = 0; i < rowDim; i++) {
+        // only add values where i = j
+        sum += Prod[i][i];
+    }
+
+    return sum / 6;
 }
 
 int main(int argc, char** argv) {
@@ -271,11 +321,25 @@ int main(int argc, char** argv) {
 
     // if testing, generate two random matrices and calculate product with both Strassen's and naive algorithm
     if (strtol(argv[1], nullptr, 0) == 1) {
+        M1 = generateRandMat(9);
+        M2 = generateRandMat(9);
 
+        Matrix Prod = NaiveMatMult(M1, M2);
+        cout << "Naive method:" << endl;
+        Prod.printMat();
     }
     // if flag is '2' then calculate optimal n0
     else if (strtol(argv[1], nullptr, 0) == 2) {
 
+    }
+    // if flag is '3' then calculate triangles
+    else if (strtol(argv[1], nullptr, 0) == 3) {
+        // increase num to 1024 after crossover point implemented
+        Matrix MRand = generateRandGraph(124, 0.05);
+        int triangles = CountTriangles(MRand);
+        cout << "Triangles: " << triangles << endl;
+        // end program
+        return 0;
     }
     // otherwise read inputs from text file
     else {
@@ -307,7 +371,8 @@ int main(int argc, char** argv) {
         }
     }
 
-    Matrix Prod = StrassMult(M1, M2);
+    cout << "\nStrassen's method:" << endl;
+    Matrix Prod = StrassMult(M1, M2);    
     Prod.printMat();
     // Prod.printDiagonal();
 
