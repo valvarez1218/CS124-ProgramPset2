@@ -7,11 +7,13 @@
 #include <fstream>
 #include <time.h>
 #include <stdlib.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-const int gBASE_N = 5;
-
+int N_0 = 0;
+const int gBASE_N_ODD = 37;
+const int gBASE_N_EVEN = 15;
 // structure used to represent a matrix
 struct Matrix {
     // how many rows in matrix (height)
@@ -196,8 +198,18 @@ Matrix StrassMult(Matrix M1, Matrix M2) {
     assert(M1.rowDim == M2.rowDim);
 
     // if we have base case we use naive matrix multiplication
-    if (M1.colDim <= gBASE_N) {
-        return NaiveMatMult(M1, M2);
+    if (N_0 != 0) {
+        if (M1.colDim <= N_0) {
+            return NaiveMatMult(M1, M2);
+        }
+    } else if (M1.colDim <= gBASE_N_ODD) {
+        if (M1.colDim % 2 == 1) {
+            // dimension is odd
+            return NaiveMatMult(M1, M2);
+        } else if (M1.colDim <= gBASE_N_EVEN) {
+            // dimension is even
+            return NaiveMatMult(M1, M2);
+        }
     }
 
     // matrix where we will store final value
@@ -262,7 +274,7 @@ Matrix generateRandMat(int dimension) {
 
     for (int i = 0; i < dimension; i++) {
         for (int j = 0; j < dimension; j++) {
-            // random integers between 0 and 10
+            // random integers between 0 and 100
             M[i][j] = rand() % 100;
             // make 10% of values negative
             if (rand() % 10 == 1) {
@@ -309,11 +321,6 @@ int CountTriangles(Matrix MTri) {
 }
 
 int main(int argc, char** argv) {
-    if (argc != 4) {
-        std::printf("Usage: ./strassen 0 dimension inputfile\n");
-        return -1;
-    }
-
     // get dimension from command line
     int dimension = strtol(argv[2], nullptr, 0);
     Matrix M1(dimension, dimension);
@@ -321,28 +328,86 @@ int main(int argc, char** argv) {
 
     // if testing, generate two random matrices and calculate product with both Strassen's and naive algorithm
     if (strtol(argv[1], nullptr, 0) == 1) {
-        M1 = generateRandMat(9);
-        M2 = generateRandMat(9);
+        if (argc != 3) {
+            std::printf("Usage: ./strassen 1 dimension\n");
+            return -1;
+        }
+        
+        M1 = generateRandMat(dimension);
+        M2 = generateRandMat(dimension);
 
-        Matrix Prod = NaiveMatMult(M1, M2);
+        Matrix ProdNaive = NaiveMatMult(M1, M2);
+        Matrix ProdStrass = StrassMult(M1, M2);
         cout << "Naive method:" << endl;
-        Prod.printMat();
+        ProdNaive.printDiagonal();
+        cout << "\n Strassen's method:" << endl;
+        ProdStrass.printDiagonal();
+        return 0;
     }
     // if flag is '2' then calculate optimal n0
     else if (strtol(argv[1], nullptr, 0) == 2) {
+        if (argc != 3) {
+            std::printf("Usage: ./strassen 2 dimension\n");
+            return -1;
+        }
+        
+        clock_t start, end;
+        double naive_time = 0;
+        double strassens_time = INT_MAX;
 
+        M1 = generateRandMat(dimension);
+        M2 = generateRandMat(dimension);
+
+        while (naive_time < strassens_time) {
+            N_0 += 1;
+
+            start = clock();
+            NaiveMatMult(M1, M2);
+            end = clock();
+            naive_time = ((double)(end - start)) / (CLOCKS_PER_SEC / 1000);
+
+            start = clock();
+            StrassMult(M1, M2);
+            end = clock();
+            strassens_time = ((double)(end - start)) / (CLOCKS_PER_SEC / 1000);
+        }
+        cout << N_0 << endl;
+        cout << "Naive finished in time " << naive_time << endl;
+        cout << "Strassen's finished in time " << strassens_time << endl;
+
+        return 0;
     }
     // if flag is '3' then calculate triangles
     else if (strtol(argv[1], nullptr, 0) == 3) {
-        // increase num to 1024 after crossover point implemented
-        Matrix MRand = generateRandGraph(124, 0.05);
-        int triangles = CountTriangles(MRand);
-        cout << "Triangles: " << triangles << endl;
+        if (argc != 5) {
+            std::printf("Usage: ./strassen 3 vertices probability trials\n");
+            return -1;
+        }
+        // Usage: ./strassen 3 nodes probability
+        float prob = strtod(argv[3], nullptr);
+        int vertices = strtol(argv[2], nullptr, 0);
+        int trials = strtol(argv[4], nullptr, 0);
+
+        // perform requested number of trials on graphs of specified vertices and edge probability
+        int totalTriangles = 0;
+        for (int i = 0; i < trials; i++) {
+            Matrix MRand = generateRandGraph(vertices, prob);
+            int triangles = CountTriangles(MRand);
+            cout << "P: " << prob << " | Triangles: " << triangles << endl;
+            totalTriangles += triangles;
+        }
+
+        cout << "P: " << prob << " | AVERAGE: " << (float)totalTriangles/trials << endl;
         // end program
         return 0;
     }
     // otherwise read inputs from text file
     else {
+        if (argc != 4) {
+            std::printf("Usage: ./strassen 0 dimension inputfile\n");
+            return -1;
+        }
+        
         bool enteringM2 = false;;
         string filename(argv[3]);
         ifstream infile(filename);
@@ -371,10 +436,8 @@ int main(int argc, char** argv) {
         }
     }
 
-    cout << "\nStrassen's method:" << endl;
-    Matrix Prod = StrassMult(M1, M2);    
-    Prod.printMat();
-    // Prod.printDiagonal();
+    Matrix Prod = StrassMult(M1, M2);
+    Prod.printDiagonal();
 
     return 0;
 }

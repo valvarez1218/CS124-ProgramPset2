@@ -1,0 +1,5 @@
+Vertices: 1024 | P: 0.01 | Avg: 180.3
+Vertices: 1024 | P: 0.02 | Avg: 1420.9
+Vertices: 1024 | P: 0.03 | Avg: 4803
+Vertices: 1024 | P: 0.04 | Avg: 11400.6
+Vertices: 1024 | P: 0.05 | Avg: 22177

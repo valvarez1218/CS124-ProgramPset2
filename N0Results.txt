@@ -1,0 +1,24 @@
+77
+Naive finished in time 1.293
+Strassen's finished in time 1.25
+65
+Naive finished in time 1.946
+Strassen's finished in time 1.934
+124
+Naive finished in time 1.228
+Strassen's finished in time 1.202
+149
+Naive finished in time 1.53
+Strassen's finished in time 1.248
+83
+Naive finished in time 1.351
+Strassen's finished in time 1.317
+64
+Naive finished in time 120.099
+Strassen's finished in time 80.917
+64
+Naive finished in time 118.63
+Strassen's finished in time 83.52
+50
+Naive finished in time 182.193
+Strassen's finished in time 158.219

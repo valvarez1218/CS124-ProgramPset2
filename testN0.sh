@@ -1,0 +1,1 @@
+for j in 124 512 725 1024; do for i in 1 2 3 4 5; do ./strassen 2 $j; done; done > $1
