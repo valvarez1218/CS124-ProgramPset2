@@ -7,7 +7,6 @@
 #include <fstream>
 #include <time.h>
 #include <stdlib.h>
-#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -292,7 +291,7 @@ Matrix generateRandGraph(int dimension, float p) {
     srand(time(NULL));
 
     for (int i = 0; i < dimension; i++) {
-        for (int j = 0; j < dimension; j++) {
+        for (int j = i; j < dimension; j++) {
             if (i == j) {
                 M[i][j] = 0;
             } else {
@@ -353,7 +352,7 @@ int main(int argc, char** argv) {
         
         clock_t start, end;
         double naive_time = 0;
-        double strassens_time = INT_MAX;
+        double strassens_time = 1;
 
         M1 = generateRandMat(dimension);
         M2 = generateRandMat(dimension);
@@ -371,7 +370,8 @@ int main(int argc, char** argv) {
             end = clock();
             strassens_time = ((double)(end - start)) / (CLOCKS_PER_SEC / 1000);
         }
-        cout << N_0 << endl;
+        cout << "-- Dimension " << dimension << " --" << endl;
+        cout << "N_0: " << N_0 << endl;
         cout << "Naive finished in time " << naive_time << endl;
         cout << "Strassen's finished in time " << strassens_time << endl;
 

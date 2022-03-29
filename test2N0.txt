@@ -1,0 +1,36 @@
+-- Dimension 124 --
+N_0: 91
+Naive finished in time 1.682
+Strassen's finished in time 1.664
+-- Dimension 124 --
+N_0: 146
+Naive finished in time 1.055
+Strassen's finished in time 1.023
+-- Dimension 124 --
+N_0: 126
+Naive finished in time 1.164
+Strassen's finished in time 0.998
+-- Dimension 124 --
+N_0: 148
+Naive finished in time 1.029
+Strassen's finished in time 1.017
+-- Dimension 124 --
+N_0: 141
+Naive finished in time 1.086
+Strassen's finished in time 1.021
+-- Dimension 512 --
+N_0: 32
+Naive finished in time 222.16
+Strassen's finished in time 215.529
+-- Dimension 512 --
+N_0: 33
+Naive finished in time 233.099
+Strassen's finished in time 223.857
+-- Dimension 512 --
+N_0: 32
+Naive finished in time 212.219
+Strassen's finished in time 210.395
+-- Dimension 512 --
+N_0: 33
+Naive finished in time 250.868
+Strassen's finished in time 249.316
