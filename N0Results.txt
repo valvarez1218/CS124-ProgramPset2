@@ -1,24 +1,80 @@
-77
-Naive finished in time 1.293
-Strassen's finished in time 1.25
-65
-Naive finished in time 1.946
-Strassen's finished in time 1.934
-124
-Naive finished in time 1.228
-Strassen's finished in time 1.202
-149
-Naive finished in time 1.53
-Strassen's finished in time 1.248
-83
-Naive finished in time 1.351
-Strassen's finished in time 1.317
-64
-Naive finished in time 120.099
-Strassen's finished in time 80.917
-64
-Naive finished in time 118.63
-Strassen's finished in time 83.52
-50
-Naive finished in time 182.193
-Strassen's finished in time 158.219
+-- Dimension 124 --
+N_0: 65
+Naive finished in time 1.403
+Strassen's finished in time 1.355
+-- Dimension 124 --
+N_0: 77
+Naive finished in time 1.261
+Strassen's finished in time 1.222
+-- Dimension 124 --
+N_0: 89
+Naive finished in time 1.219
+Strassen's finished in time 1.209
+-- Dimension 124 --
+N_0: 62
+Naive finished in time 1.202
+Strassen's finished in time 1.183
+-- Dimension 124 --
+N_0: 75
+Naive finished in time 1.216
+Strassen's finished in time 1.211
+-- Dimension 512 --
+N_0: 64
+Naive finished in time 113.686
+Strassen's finished in time 77.387
+-- Dimension 512 --
+N_0: 64
+Naive finished in time 116.15
+Strassen's finished in time 81.902
+-- Dimension 512 --
+N_0: 64
+Naive finished in time 114.371
+Strassen's finished in time 81.246
+-- Dimension 512 --
+N_0: 64
+Naive finished in time 115.805
+Strassen's finished in time 79.59
+-- Dimension 512 --
+N_0: 64
+Naive finished in time 113.412
+Strassen's finished in time 83.935
+-- Dimension 725 --
+N_0: 46
+Naive finished in time 343.107
+Strassen's finished in time 278.255
+-- Dimension 725 --
+N_0: 46
+Naive finished in time 335.601
+Strassen's finished in time 271.721
+-- Dimension 725 --
+N_0: 46
+Naive finished in time 341.798
+Strassen's finished in time 274.832
+-- Dimension 725 --
+N_0: 46
+Naive finished in time 339.773
+Strassen's finished in time 274.582
+-- Dimension 725 --
+N_0: 46
+Naive finished in time 338.476
+Strassen's finished in time 273.89
+-- Dimension 1024 --
+N_0: 32
+Naive finished in time 1106.49
+Strassen's finished in time 938.707
+-- Dimension 1024 --
+N_0: 32
+Naive finished in time 1170.44
+Strassen's finished in time 938.415
+-- Dimension 1024 --
+N_0: 32
+Naive finished in time 1230.55
+Strassen's finished in time 954.388
+-- Dimension 1024 --
+N_0: 32
+Naive finished in time 1223.97
+Strassen's finished in time 940.498
+-- Dimension 1024 --
+N_0: 32
+Naive finished in time 1211.06
+Strassen's finished in time 941.111
