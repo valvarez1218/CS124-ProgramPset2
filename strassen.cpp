@@ -98,7 +98,7 @@ struct Matrix {
 
 // regular matrix multiplication algorithm, used after we hit base case
 //      assumes input matrices have appropriate dimensions; (n x m) and (m x n)
-Matrix NaiveMatMult(Matrix M1, Matrix M2) {
+Matrix NaiveMatMult(Matrix &M1, Matrix &M2) {
     Matrix toRet(M1.rowDim, M1.colDim);
 
     for (int i = 0; i < M1.rowDim; i++) {
@@ -114,7 +114,7 @@ Matrix NaiveMatMult(Matrix M1, Matrix M2) {
 }
 
 // for submatrices of the form (A + B) calcualte their sum and return as a matrix
-Matrix sumSectors(Matrix M, pair<int, int> start1, pair<int, int> start2, bool subtracting = false) {
+Matrix sumSectors(Matrix &M, pair<int, int> start1, pair<int, int> start2, bool subtracting = false) {
     int rowDim = M.rowDim/2;
     int colDim = M.colDim/2;
     Matrix toRet(rowDim, colDim);
@@ -136,7 +136,7 @@ Matrix sumSectors(Matrix M, pair<int, int> start1, pair<int, int> start2, bool s
 }
 
 // for submatrices of the form A simply calcualte them and return
-Matrix getSubMat(Matrix M, pair<int, int> start) {
+Matrix getSubMat(Matrix &M, pair<int, int> start) {
     int rowDim = M.rowDim/2;
     int colDim = M.colDim/2;
     Matrix toRet(rowDim, colDim);
@@ -152,7 +152,7 @@ Matrix getSubMat(Matrix M, pair<int, int> start) {
 
 // given the 7 products from Strassen's combine into final matrix
 //      manipulate Prod in place
-void combineMats(Matrix &Prod, vector<Matrix> subProducts) {
+void combineMats(Matrix &Prod, vector<Matrix> &subProducts) {
     // we should only be receiving the 7 products from Strassen's
     assert(subProducts.size() == 7);
 
@@ -257,7 +257,8 @@ Matrix StrassMult(Matrix M1, Matrix M2) {
     Matrix EF = sumSectors(M2, make_pair(0, 0), make_pair(0, M2.colDim/2));
     Matrix P7 = StrassMult(CA, EF);
 
-    combineMats(Product, vector<Matrix>{P1, P2, P3, P4, P5, P6, P7});
+    vector<Matrix> subProducts{P1, P2, P3, P4, P5, P6, P7};
+    combineMats(Product, subProducts);
 
     if (Product.padded) {
         Product.depad();
@@ -370,10 +371,7 @@ int main(int argc, char** argv) {
             end = clock();
             strassens_time = ((double)(end - start)) / (CLOCKS_PER_SEC / 1000);
         }
-        cout << "-- Dimension " << dimension << " --" << endl;
-        cout << "N_0: " << N_0 << endl;
-        cout << "Naive finished in time " << naive_time << endl;
-        cout << "Strassen's finished in time " << strassens_time << endl;
+        cout << dimension << ", " << N_0  << ", " << naive_time << ", " << strassens_time << endl;
 
         return 0;
     }
